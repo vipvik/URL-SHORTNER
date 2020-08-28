@@ -1,6 +1,7 @@
 {
-    "mysql_host": "localhost",
-    "mysql_user": "root",
-    "mysql_password": "",
-    "mysql_db": "urlshortner"
+    "mysql_host": "ec2-18-233-137-77.compute-1.amazonaws.com",
+    "mysql_user": "dwrccllpymfpdx",
+    "mysql_password": "d10a21bcef3f2e0a315e86fcad006c37f9f8056968ba1b2f2a6a700740287536",
+    "mysql_db": "d82ofi15t7sorv",
+    "port" : "5432"
 }

@@ -4,28 +4,26 @@ from math import floor
 import json, validators
 import string
 from random import choice
+import psycopg2
 import mysql.connector
 app = Flask(__name__)
 
 db = json.load(open('db.json',))
-conn = mysql.connector.connect(
-			host=db['mysql_host'],
-			user=db['mysql_user'],
-			password=db['mysql_password'],
-			database=db['mysql_db'])
+conn = psycopg2.connect(database = db['mysql_db'], user = db['mysql_user'], password = db['mysql_password'], host = db['mysql_host'], port = db['port'])
 
-host = "http://localhost:5000/"
+host = "https://vip-vik-short.herokuapp.com/"
 
 
 
 def create_table_if_not_exit():
-	table = "CREATE TABLE IF NOT EXISTS users(id INT AUTO_INCREMENT PRIMARY KEY, longurl TEXT);"
+	table = "CREATE TABLE IF NOT EXISTS users(id SERIAL PRIMARY KEY, longurl TEXT);"
 	try:
 		cur = conn.cursor()
 		cur.execute(table)
 		conn.commit()
 		print("table created")
 	except Exception as e:
+		conn.rollback()
 		print("failure in table creation")
 
 def operation(long_url):
@@ -71,14 +69,16 @@ def make_of_length7(short_url):
 
 
 def view(long_url):
-
-	cur = conn.cursor()
-	cnt = 0
-	cur.execute("INSERT INTO users VALUES (%s, %s)", (0, long_url))
-	conn.commit()
-	cur.execute("select LAST_INSERT_ID()")
-	cnt = cur.fetchone()[0]
-	cur.close()
+	try:
+		cur = conn.cursor()
+		cnt = 0
+		cur.execute("""INSERT INTO users ("longurl") VALUES ('{}') RETURNING id""".format(long_url))
+		cnt = cur.fetchone()[0]
+		conn.commit()
+		cur.close()
+	except Exception as e:
+		print(e)
+		conn.rollback()
 	short_url = base62(cnt)
 	short_url = make_of_length7(short_url)
 	return short_url
@@ -95,14 +95,13 @@ def index():
 def short_url():
 	if request.is_xhr:
 		long_url = request.form['longurl']
-		print(long_url)
 		if(long_url == ""):
 			return jsonify({'error': "empty input"})
 		long_url = operation(long_url)
 		if not validators.url(long_url):
 			return jsonify({'error' : "invalid url"})
 		else :
-			short_url1 = host + view(long_url)
+			short_url1 = host + 'load/' + view(long_url)
 			return jsonify({'short_url' : short_url1})
         
 
@@ -113,15 +112,22 @@ def short_url():
 
 
 
-@app.route('/<short_url>')
+@app.route('/load/<short_url>')
 def redirect_short_url(short_url):
+	if len(short_url) > 8 :
+		return "<h1> wrong url</h1>" + '<a href = "{}"> back </a>'.format(host)
 	ID1 = base10(short_url)
-	cur = conn.cursor()
-	cur.execute("SELECT users.longurl FROM users WHERE users.id = '%s'", (ID1, ))
+
+	try:
+		cur = conn.cursor()
+		cur.execute("""SELECT longurl FROM users WHERE id = {}""".format(ID1))
+	except Exception as e:
+		conn.rollback()
+		print(e)
 	try:
 		redirect_url = cur.fetchone()[0]
 	except Exception as e:
-		return "<h1> wrong url</h1>"  + '<a href = "http://localhost:5000"> back </a>'
+		return "<h1> wrong url</h1>"  + '<a href = "{}"> back </a>'.format(host)
 	return redirect(redirect_url)
 
 
