@@ -13,7 +13,7 @@ To get your python environment set up, you can create a virtual environment and 
  $ source venv/bin/activate
  $ pip3 install -r requirements.txt
  
- #change hostname and database configuration
+ #add hostname and database credentials
 ```
 
 ## TODO
