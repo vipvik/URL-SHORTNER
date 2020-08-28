@@ -1,0 +1,12 @@
+click==7.1.2
+decorator==4.4.2
+Flask==1.1.2
+Flask-MySQLdb==0.2.0
+itsdangerous==1.1.0
+Jinja2==2.11.2
+MarkupSafe==1.1.1
+mysql-connector==2.2.9
+mysqlclient==2.0.1
+six==1.15.0
+validators==0.18.0
+Werkzeug==0.16.0

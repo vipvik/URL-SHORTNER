@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>URL SHORTNER</title>
+<link rel = "stylesheet" type = "text/css" href = "{{url_for('static', filename = 'css/custom.css')}}">
+<link rel = "stylesheet" type = "text/css" href = "{{ url_for('static', filename='css/bootstrap.min.css')}}" >
+</head>
+<body>
+    
+	<h2 class="text-center" id = "temp">URL SHORTNER</h2>
+    <form class="form-inline" id = "row1">
+        <div class="form-group" >
+            <input type="text" class="form-control" id="longurl" placeholder="Shorten your link">
+        </div>
+        <button type="submit" class="btn btn-primary " id = "submit">Shorten</button>
+    </form>
+    
+    <div class = "row2">
+        <div id="successAlert" class="alert alert-success" style = "display : none;"></div>
+	    <div id="errorAlert" class="alert alert-danger" style = "display : none;"></div>
+    </div>
+    <div class = "row3">
+    	<a class="cursor no-select" id="copy-code" style = "display : none;" title = "copy-code">
+            <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+        </a>
+    </div>
+	
+    <script  src = "{{url_for('static', filename = 'js/jquery.min.js')}}" type="text/javascript" ></script>
+    <script  src = "{{url_for('static', filename = 'js/custom.js')}}" type="text/javascript" ></script>
+    <script  src = "{{url_for('static', filename = 'js/bootstrap.min.js')}}" type="text/javascript" ></script>
+</body>
+</html>
