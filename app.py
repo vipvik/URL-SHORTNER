@@ -19,7 +19,7 @@ host = "http://localhost:5000/"
 
 
 def create_table_if_not_exit():
-	table = "CREATE TABLE IF NOT EXISTS urlshortner.users(id INT AUTO_INCREMENT PRIMARY KEY, longurl TEXT);"
+	table = "CREATE TABLE IF NOT EXISTS users(id INT AUTO_INCREMENT PRIMARY KEY, longurl TEXT);"
 	try:
 		cur = conn.cursor()
 		cur.execute(table)
