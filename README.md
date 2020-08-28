@@ -1,7 +1,8 @@
 # URL-SHORTNER
 
-An App developed with [Flask](https://flask.palletsprojects.com/en/1.1.x/) framework to Shorten the URL
+An App developed with [Flask](https://flask.palletsprojects.com/en/1.1.x/) framework to Shorten the URL!
 
+**Visit** - [urlshortner | shorten your url](https://vip-vik-short.herokuapp.com/)
 ## Screenshot-
 ![](/static/screenshot.png)
 
