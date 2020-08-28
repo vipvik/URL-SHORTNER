@@ -7,6 +7,7 @@ Jinja2==2.11.2
 MarkupSafe==1.1.1
 mysql-connector==2.2.9
 mysqlclient==2.0.1
+psycopg2==2.8.5
 six==1.15.0
 validators==0.18.0
 Werkzeug==0.16.0
